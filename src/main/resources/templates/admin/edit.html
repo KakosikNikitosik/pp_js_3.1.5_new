@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div><center>
+    <form th:method="post" action="#" th:action="@{/admin/edit}" th:object="${user}">
+
+      <label for="id"> ID: </label>
+      <input readonly type="number" th:field="*{id}" id="id"/>
+      <br/><br/>
+
+      <label for="username"> Enter your Username: </label>
+      <input type="text" th:field="*{username}" id="username"/>
+      <br/><br/>
+
+      <label for="password"> Enter Password: </label>
+      <input type="password" th:field="*{password}" id="password"/>
+      <br/><br/>
+
+      <label for="roleId"> You must specify:Admin - 1, User - 2 or together: </label>
+      <input type="text" th:field="*{roles}" id="roleId"/>
+      <br/><br/>
+
+      <input type="submit" value="Update user"/>
+    </form>
+  </center></div>
+  <br>
+  <input type="button" value="Logout"
+         onclick="window.location.href = '/logout'"/>
+</body>
+</html>

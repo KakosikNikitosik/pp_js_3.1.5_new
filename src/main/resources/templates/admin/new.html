@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <div><center>
+
+    <h2>It sets role "User" as default</h2>
+    <br><br>
+    <form th:method="POST" th:action="@{/admin/save}" th:object="${user}">
+      <label for="username"> Enter your Username: </label>
+      <input type="text" name="username" id="username"/>
+      <br/><br/>
+
+      <label for="password"> Enter Password: </label>
+      <input type="text" name="password" id="password"/>
+      <br/><br/>
+
+      <input type="submit" value="Add user"/>
+    </form>
+  </center></div>
+  <br/><br/>
+  <input type="button" value="Logout"
+         onclick="window.location.href = '/logout'"/>
+</body>
+</html>
