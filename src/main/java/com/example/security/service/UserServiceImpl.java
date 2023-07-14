@@ -2,7 +2,6 @@ package com.example.security.service;
 
 import com.example.security.model.Role;
 import com.example.security.model.User;
-import com.example.security.repository.RoleRepository;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -11,12 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +27,7 @@ public class UserServiceImpl implements UserService{
                            @Lazy BCryptPasswordEncoder bCryptpasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptpasswordEncoder = bCryptpasswordEncoder;
-
     }
-
-
 
     @Override
     public List<User> getUsers() {
@@ -66,12 +59,11 @@ public class UserServiceImpl implements UserService{
         userRepository.save(updatedUser);
     }
 
-
-
     @Transactional
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
     @Override
     @Transactional
     public void deleteUser(Long id) {

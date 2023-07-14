@@ -11,9 +11,9 @@ public interface UserService extends UserDetailsService {
 
     List<User> getUsers();
 
-    boolean saveUser(User user/*,Long roleId*/);
+    boolean saveUser(User user);
 
-    void update(User updatedUser/*, Long roleId*/);
+    void update(User updatedUser);
 
     public User findById(Long id);
 

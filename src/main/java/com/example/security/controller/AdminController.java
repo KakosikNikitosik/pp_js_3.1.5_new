@@ -1,21 +1,12 @@
 package com.example.security.controller;
 
-
-
 import com.example.security.model.Role;
 import com.example.security.model.User;
-import com.example.security.repository.RoleRepository;
-import com.example.security.service.RoleService;
 import com.example.security.service.UserService;
-/*import com.sun.xml.bind.v2.util.QNameMap;*/
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-/*import sun.security.pkcs.SignerInfo;*/
-
 import java.security.Principal;
 import java.util.Set;
 
@@ -66,6 +57,4 @@ public class AdminController {
         userService.deleteUser(id);
         return "redirect:/admin/users";
     }
-
-
 }
