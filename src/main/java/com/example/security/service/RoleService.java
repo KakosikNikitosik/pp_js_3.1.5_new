@@ -8,8 +8,6 @@ import java.util.Set;
 public interface RoleService {
 
     List<Role> getAllRoles();
-
-    /*public void addRole(String role);*/
 }
 
 

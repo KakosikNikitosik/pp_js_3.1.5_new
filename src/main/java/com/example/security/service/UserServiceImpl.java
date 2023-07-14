@@ -24,14 +24,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptpasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+    public UserServiceImpl(UserRepository userRepository,
                            @Lazy BCryptPasswordEncoder bCryptpasswordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.bCryptpasswordEncoder = bCryptpasswordEncoder;
 
     }
@@ -46,8 +44,7 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public boolean saveUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
-            user.setRoles(Collections.singleton(roleRepository.getOne(2L)));
+        if (userRepository.findByEmail(user.getEmail()) == null) {
             user.setPassword(bCryptpasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return true;
@@ -62,30 +59,33 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public void update(User updatedUser) {
+        if (!updatedUser.getPassword().equals(findById(updatedUser.getId()).getPassword())) {
+            updatedUser.setPassword(bCryptpasswordEncoder.encode(updatedUser.getPassword()));
+        }
+        updatedUser.setRoles(updatedUser.getRoles());
         userRepository.save(updatedUser);
     }
 
 
 
     @Transactional
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuth(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuth(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuth(Collection<Role> roles) {

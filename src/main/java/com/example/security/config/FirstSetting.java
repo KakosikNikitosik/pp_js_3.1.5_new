@@ -29,14 +29,18 @@ public class FirstSetting implements CommandLineRunner {
         Role roleAdmin = new Role(1L,"ROLE_ADMIN");
         Role roleUser = new Role(2L,"ROLE_USER");
         Set<Role> adminRoles = new HashSet<>();
+        Set<Role> userRoles = new HashSet<>();
         roleRepository.save(roleAdmin);
         roleRepository.save(roleUser);
         adminRoles.add(roleAdmin);
         adminRoles.add(roleUser);
+        userRoles.add(roleUser);
 
 
-        User userAdmin = new User("admin", bCryptPasswordEncoder.encode("admin"), adminRoles);
+        User userAdmin = new User("admin","pupa", 22,"admin@m.ru", bCryptPasswordEncoder.encode("admin"), adminRoles);
+        User userUser = new User("user","lupa", 45,"user@m.ru", bCryptPasswordEncoder.encode("user"), userRoles);
 
         userRepository.save(userAdmin);
+        userRepository.save(userUser);
     }
 }

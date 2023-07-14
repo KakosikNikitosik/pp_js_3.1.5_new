@@ -7,14 +7,26 @@
 </head>
 <body>
   <div><center>
-    <form th:method="post" action="#" th:action="@{/admin/edit}" th:object="${user}">
+    <form th:method="post" th:action="@{/admin/edit}" th:object="${user}">
 
       <label for="id"> ID: </label>
       <input readonly type="number" th:field="*{id}" id="id"/>
       <br/><br/>
 
-      <label for="username"> Enter your Username: </label>
-      <input type="text" th:field="*{username}" id="username"/>
+      <label for="First Name"> Enter your FirstName: </label>
+      <input type="text" th:field="*{firstName}" id="First Name"/>
+      <br/><br/>
+
+      <label for="Last Name"> Enter your LastName: </label>
+      <input type="text" th:field="*{lastName}" id="Last Name"/>
+      <br/><br/>
+
+      <label for="Age"> Enter your LastName: </label>
+      <input type="text" th:field="*{age}" id="Age"/>
+      <br/><br/>
+
+      <label for="email"> Enter your Username: </label>
+      <input type="text" th:field="*{email}" id="email"/>
       <br/><br/>
 
       <label for="password"> Enter Password: </label>

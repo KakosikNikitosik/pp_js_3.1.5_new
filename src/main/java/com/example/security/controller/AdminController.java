@@ -7,63 +7,39 @@ import com.example.security.model.User;
 import com.example.security.repository.RoleRepository;
 import com.example.security.service.RoleService;
 import com.example.security.service.UserService;
-import com.sun.xml.bind.v2.util.QNameMap;
+/*import com.sun.xml.bind.v2.util.QNameMap;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sun.security.pkcs.SignerInfo;
+/*import sun.security.pkcs.SignerInfo;*/
 
-import java.util.Collections;
+import java.security.Principal;
+import java.util.Set;
 
 
 @Controller
 public class AdminController {
 
-    private BCryptPasswordEncoder bCryptpasswordEncoder;
-
-    private RoleService roleService;
-
     @Autowired
-    public AdminController(@Lazy BCryptPasswordEncoder bCryptpasswordEncoder, RoleRepository roleRepository, UserService userService, RoleService roleService) {
-        this.roleService = roleService;
-        this.bCryptpasswordEncoder = bCryptpasswordEncoder;
-        this.roleRepository = roleRepository;
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
-    /*@Autowired
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }*/
-
-    private RoleRepository roleRepository;
-
-   /* @Autowired
-    public void setbCryptpasswordEncoder(BCryptPasswordEncoder bCryptpasswordEncoder) {
-        this.bCryptpasswordEncoder = bCryptpasswordEncoder;
-    }*/
-
-    /*public AdminController(UserService userService) {
-        this.userService = userService;
-    }*/
-
     private UserService userService;
-    /*@Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }*/
 
     @RequestMapping("/admin/users")
-    public String printListOfUsers(Model model) {
+    public String printListOfUsers(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        model.addAttribute("user", user);
         model.addAttribute("users", userService.getUsers());
         return "/admin/users";
     }
     @GetMapping(value = "/admin/users/new")
-    public String newUserForCreating(Model model, String username, String password) {
-        model.addAttribute("newUser", new User(username, password));
+    public String newUserForCreating(Model model, String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
+        model.addAttribute("newUser", new User(firstName, lastName, age, email, password, roles));
         return "/admin/new";
     }
 
@@ -79,26 +55,11 @@ public class AdminController {
         return "/admin/show";
     }
 
-    @GetMapping("/admin/edit/{id}")
-    public String updateUserForm(@PathVariable("id") Long id,Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "/admin/edit";
-    }
-    @PostMapping("/admin/edit")
-    public String updateUser(@ModelAttribute("user") User user) {
-        User userFromDB = userService.findById(user.getId());
-        if (user.getPassword().equals("")) {
-
-            userFromDB.setRoles(user.getRoles());
-            userService.update(userFromDB);
-        } else {
-            user.setRoles(user.getRoles());
-            user.setPassword(bCryptpasswordEncoder.encode(user.getPassword()));
-            userService.update(user/*, roleId*/);}
+    @PatchMapping("/admin/{id}")
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+            userService.update(user);
         return "redirect:/admin/users";
     }
-
 
     @PostMapping("/admin/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
