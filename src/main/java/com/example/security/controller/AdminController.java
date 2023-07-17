@@ -1,6 +1,6 @@
 package com.example.security.controller;
 
-import com.example.security.model.Role;
+
 import com.example.security.model.User;
 import com.example.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.Set;
+
 
 
 @Controller
@@ -23,14 +23,13 @@ public class AdminController {
 
     @RequestMapping("/admin/users")
     public String printListOfUsers(Model model, Principal principal) {
-        User user = userService.findByEmail(principal.getName());
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.findByEmail(principal.getName()));
         model.addAttribute("users", userService.getUsers());
         return "/admin/users";
     }
     @GetMapping(value = "/admin/users/new")
-    public String newUserForCreating(Model model, String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
-        model.addAttribute("newUser", new User(firstName, lastName, age, email, password, roles));
+    public String newUserForCreating(Model model) {
+        model.addAttribute("newUser", new User());
         return "/admin/new";
     }
 
@@ -47,7 +46,7 @@ public class AdminController {
     }
 
     @PatchMapping("/admin/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+    public String updateUser(@ModelAttribute("user") User user) {
             userService.update(user);
         return "redirect:/admin/users";
     }

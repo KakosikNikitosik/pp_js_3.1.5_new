@@ -4,7 +4,6 @@ import com.example.security.model.Role;
 import com.example.security.model.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +23,7 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           @Lazy BCryptPasswordEncoder bCryptpasswordEncoder) {
+                           BCryptPasswordEncoder bCryptpasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptpasswordEncoder = bCryptpasswordEncoder;
     }
@@ -36,13 +35,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public boolean saveUser(User user) {
+    public void saveUser(User user) {
         if (userRepository.findByEmail(user.getEmail()) == null) {
             user.setPassword(bCryptpasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return true;
         }
-        return false;
+
     }
     public User findById(Long id) {
         return userRepository.findById(id).get();
@@ -55,7 +53,6 @@ public class UserServiceImpl implements UserService{
         if (!updatedUser.getPassword().equals(findById(updatedUser.getId()).getPassword())) {
             updatedUser.setPassword(bCryptpasswordEncoder.encode(updatedUser.getPassword()));
         }
-        updatedUser.setRoles(updatedUser.getRoles());
         userRepository.save(updatedUser);
     }
 
@@ -78,6 +75,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuth(user.getRoles()));
+
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuth(Collection<Role> roles) {

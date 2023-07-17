@@ -1,8 +1,10 @@
 package com.example.security.config;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +24,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         } else {
             httpServletResponse.sendRedirect("/user/show");
         }
+    }
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

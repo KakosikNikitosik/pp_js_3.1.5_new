@@ -1,7 +1,5 @@
 package com.example.security.model;
 
-/*import javax.persistence.*;*/
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,7 +7,6 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -40,24 +37,17 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false)
     )
-    private Set<Role> roles = new HashSet<>();
+    private Collection<Role> roles = new HashSet<>();
 
     public User() {}
 
-    public User(String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
+    public User(String firstName, String lastName, Integer age, String email, String password, Collection<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
         this.password = password;
         this.roles = roles;
-    }
-
-    public User(String email, String password, Set<Role> roles) {
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-
     }
 
     public User(String email, String password) {
@@ -78,11 +68,11 @@ public class User implements UserDetails {
         return Objects.hash(getId(), getUsername(), getPassword());
     }
 
-    public Set<Role> getRoles() {
+    public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 
