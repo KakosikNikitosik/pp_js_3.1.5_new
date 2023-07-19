@@ -1,19 +1,19 @@
 package com.example.security.service;
 
+import com.example.security.config.FirstSetting;
 import com.example.security.model.Role;
 import com.example.security.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
 
-    RoleRepository roleRepository;
-    Role roleAdmin = new Role(1L,"ROLE_ADMIN");
-    Role roleUser = new Role(2L,"ROLE_USER");
+    private final RoleRepository roleRepository;
 
     @Autowired
     public RoleServiceImpl(RoleRepository roleRepository) {
@@ -25,21 +25,23 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findAll();
     }
 
-    @Override
+    /*@Override
+    @Transactional
     public Set<Role> addAdminRoles() {
         Set<Role> adminRoles = new HashSet<>();
-        roleRepository.save(roleAdmin);
-        adminRoles.add(roleAdmin);
-        adminRoles.add(roleUser);
+        roleRepository.save(firstSetting.roleAdmin);
+        *//*adminRoles.add(firstSetting.roleAdmin);
+        adminRoles.add(firstSetting.roleUser);*//*
         return adminRoles;
-    }
+    }*/
 
-    @Override
+    /*@Override
+    @Transactional
     public Set<Role> addUserRole() {
         Set<Role> userRoles = new HashSet<>();
-        roleRepository.save(roleUser);
-        userRoles.add(roleUser);
+        roleRepository.save(firstSetting.roleUser);
+        userRoles.add(firstSetting.roleUser);
         return userRoles;
-    }
+    }*/
 
 }

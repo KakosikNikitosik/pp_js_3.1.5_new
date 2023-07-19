@@ -10,9 +10,9 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    Set<Role> addAdminRoles();
+    /*Set<Role> addAdminRoles();
 
-    Set<Role> addUserRole();
+    Set<Role> addUserRole();*/
 
 }
 

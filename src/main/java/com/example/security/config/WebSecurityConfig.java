@@ -1,5 +1,6 @@
 package com.example.security.config;
 
+import com.example.security.service.UserDetailsService;
 import com.example.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,14 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final LoginSuccessHandler successUserHandler;
-    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    public WebSecurityConfig(LoginSuccessHandler successUserHandler, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(LoginSuccessHandler successUserHandler, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
-        this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
 
