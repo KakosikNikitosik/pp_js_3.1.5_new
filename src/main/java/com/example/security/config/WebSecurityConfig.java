@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -30,10 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests((requests) -> requests
-                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .antMatchers("/api").permitAll()
+                        .antMatchers("/", "/index").permitAll()
                         .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers("/login").permitAll()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                        /*.antMatchers().permitAll()*/
                 )
                 .formLogin()
                 .loginPage("/login")
@@ -44,10 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl("/logout")
                 .permitAll();
     }
-
-
-
-
 
    /* @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -60,7 +60,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
-
-
 
 }

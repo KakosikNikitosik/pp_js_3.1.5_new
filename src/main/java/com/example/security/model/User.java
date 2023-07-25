@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -37,11 +37,14 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false, updatable = false)
     )
-    private Collection<Role> roles = new HashSet<>();
+    private Set<Role> roles;
+
+
+
 
     public User() {}
 
-    public User(String firstName, String lastName, Integer age, String email, String password, Collection<Role> roles) {
+    public User(String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -68,11 +71,11 @@ public class User implements UserDetails {
         return Objects.hash(getId(), getUsername(), getPassword());
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -84,6 +87,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return email;
     }
@@ -156,6 +160,15 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    /*public String getRolesToString(Set<Role> roles) {
+        StringBuilder joiner = new StringBuilder();
+        for (Role role : this.roles) {
+            joiner.append(role.getName()).append("\n");
+        }
+        String result = joiner.toString();
+        return result;
+    }*/
 
     @Override
     public String toString() {
