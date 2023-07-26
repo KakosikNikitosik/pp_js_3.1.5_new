@@ -1,4 +1,4 @@
-/*const url = 'http://localhost:8080/api/admin/user';*/
+
 const URL = 'http://localhost:8080/api/admin';
 
 function getUsers() {
@@ -24,8 +24,8 @@ function getUsers() {
                         <td>${user.username}</td>
                         <td>${roles}</td>
                         <td>
-                        <button class="btn btn-info" type="button" data-toggle="modal"
-                        data-target="#editModal" onclick="editModal(${user.id})">Edit</button>
+                        <button class="btn btn-info" type="button" data-bs-toggle="modal"
+                        data-bs-target="#editModal" onclick="editModal(${user.id})">Edit</button>
                         </td>
                         <td>
                         <button class="btn btn-danger" type="button" data-toggle="modal"
@@ -94,15 +94,12 @@ function addUser() {
         if (response.ok) {
             getUsers();
             window.location.reload();
-        } else {
-            alert('Error' + response.status)
         }
 
     })
 }
-
-function editModal(user) {
-    fetch(URL , {
+function editModal(id) {
+    fetch(URL + '/' + id, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
@@ -110,15 +107,15 @@ function editModal(user) {
     }).then(function (response) {
         return response.json();
     }).then(user => {
-        document.getElementById('editId').value = user.id;
-        document.getElementById('editName').value = user.firstName;
-        document.getElementById('editSurname').value = user.lastName;
-        document.getElementById('editAge').value = user.age;
-        document.getElementById('editEmail').value = user.username;
-        document.getElementById('editPassword').value = user.password;
-        document.getElementById('editRole').value = user.roles[0].name;
+        document.getElementById('idUpdate').value = user.id;
+        document.getElementById('firstNameUpdate').value = user.firstName;
+        document.getElementById('lastNameUpdate').value = user.lastName;
+        document.getElementById('ageUpdate').value = user.age;
+        document.getElementById('emailUpdate').value = user.username;
+        document.getElementById('passwordUpdate').value = user.password;
+        document.getElementById('rolesUpdate').value = user.roles[0].name;
 
-        const select = document.querySelector('#editRole').getElementsByTagName('option');
+        const select = document.querySelector('#rolesUpdate').getElementsByTagName('option');
         for (let i = 0; i < select.length; i++) {
             if (select[i].value === user.roles[0].name)
                 select[i].selected = true;
@@ -128,14 +125,14 @@ function editModal(user) {
 
 function editUser() {
     event.preventDefault();
-    const selectRole = document.querySelector('#editRole').getElementsByTagName('option')
-    let id = document.getElementById('editId').value
-    let firstName = document.getElementById('editName').value
-    let lastName = document.getElementById('editSurname').value
-    let age = document.getElementById('editAge').value
-    let username = document.getElementById('editEmail').value
-    let password = document.getElementById('editPassword').value
-    let roleName = document.getElementById('editRole').value;
+    const selectRole = document.querySelector('#rolesUpdate').getElementsByTagName('option')
+    let id = document.getElementById('idUpdate').value
+    let firstName = document.getElementById('firstNameUpdate').value
+    let lastName = document.getElementById('lastNameUpdate').value
+    let age = document.getElementById('ageUpdate').value
+    let username = document.getElementById('emailUpdate').value
+    let password = document.getElementById('passwordUpdate').value
+    let roleName = document.getElementById('rolesUpdate').value;
     let role = [];
 
     for (let i = 0; i < selectRole.length; i++) {
@@ -153,31 +150,29 @@ function editUser() {
             'firstName': firstName,
             'lastName': lastName,
             'age': age,
-            'username': username,
+            'email': username,
             'password': password,
             'roles': role
         })
     }).then((response) => {
-        if (response.ok) {
+        if(response.ok) {
             $('#editModal').hide();
             getUsers();
             window.location.reload();
-        } else {
-            alert('Error' + response.status)
         }
+
 
     })
 }
-
 function deleteModal(id) {
     fetch(URL + '/' + id, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         }
-    })
-        .then(res => {
-            res.json().then(user => {
+    }).then(function (response) {
+        return response.json();
+    }).then(user => {
         document.getElementById('did').value = user.id;
         document.getElementById('firstNameDelete').value = user.firstName;
         document.getElementById('lastNameDelete').value = user.lastName;
@@ -185,33 +180,20 @@ function deleteModal(id) {
         document.getElementById('emailDelete').value = user.username;
         document.getElementById('rolesDelete').value = user.roles;
     })
-})
+}
 
-async function deleteUser() {
-    let id = document.getElementById("did").value;
-    let firstName = document.getElementById("firstNameDelete").value;
-    let lastName = document.getElementById("lastNameDelete").value;
-    let age = document.getElementById("ageDelete").value;
-    let email = document.getElementById("emailDelete").value;
-    let roles = $('#rolesDelete').val();
+function deleteUser() {
+    let id = document.getElementById('did').value
 
-    let user = {
-        id: id,
-        firstName: firstName,
-        lastName: lastName,
-        age: age,
-        username: email,
-        roles: roles
-    };
-
-    await fetch(URL, {
-        method: "DELETE",
+    fetch(URL + '/' + id, {
+        method: 'DELETE',
         headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(user)
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
     }).then(() => {
-        $('#deleteModal').modal('hide');
-        getUsers()
+        $('#deleteModal').hide();
+        getUsers();
+
     })
-}}
+}
+

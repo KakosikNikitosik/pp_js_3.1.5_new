@@ -38,7 +38,6 @@ public class FirstSetting implements CommandLineRunner {
         roleRepository.save(roleAdmin);
         roleRepository.save(roleUser);
         rolesAd.add(roleAdmin);
-        rolesAd.add(roleUser);
         rolesUs.add(roleUser);
 
         userService.saveUser(new User("admin", "pupa", 22, "admin@m.ru", "admin", rolesAd));
