@@ -2,7 +2,7 @@ const userUrl = 'http://localhost:8080/api/user';
 
 
 function getUserPage() {
-    fetch(userUrl).then(response => response.json())./*then(user => getInfoForNavbar(user)).*/then(user =>
+    fetch(userUrl).then(response => response.json()).then(user =>
         getInformationAboutUser(user))
 }
 

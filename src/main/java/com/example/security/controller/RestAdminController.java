@@ -37,7 +37,7 @@ public class RestAdminController {
     }
 
     @GetMapping("/admin/{id}")
-    public ResponseEntity<User> show(/*@RequestParam (required = false)*/@PathVariable("id") Long id) {
+    public ResponseEntity<User> show(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 

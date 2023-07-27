@@ -17,8 +17,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
              <span class="navbar-brand mb-0 h1" id="myUserDetails">
-                  <!-- th:object="${user}"
-                   th:text="${user.getEmail} + ' with role: '+ ${user.getRoles}">-->
+
                 </span>
         <a class="btn btn-dark" aria-current="page" th:href="@{/logout}">Logout</a>
     </div>
@@ -77,18 +76,9 @@
                                 </tr>
                                 </thead>
                                 <tbody id="adminId">
-                                <!--<tr th:each="user : ${users}">
-                                    <td th:text="${user.id}">
-                                    <td th:text="${user.firstName}">
-                                    <td th:text="${user.lastName}">
-                                    <td th:text="${user.age}">
-                                    <td th:text="${user.email}">
-                                    <td th:text="${user.getRoles()}">
-                                    <td>
-                                        <button class="btn btn-info" data-bs-toggle="modal"
-                                                th:data-bs-target="${'#eMdl'+ user.getId}"
-                                                th:data-row="${user}">Update
-                                        </button>-->
+                                </tbody>
+                            </table>
+                        </div>
                                         <div class="modal fade" th:id="editModal" tabindex="-1"
                                              aria-labelledby="update" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -135,7 +125,7 @@
                                                                 <label for="emailUpdate"
                                                                        class="col-form-label">Email</label>
                                                                 <input type="email"
-                                                                       th:name="username" th:type="email"
+                                                                       th:name="email" th:type="email"
                                                                        class="form-control" id="emailUpdate"/>
                                                             </div>
                                                             <div class="mb-3">
@@ -170,9 +160,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </td>
-                                    <td>
                                         <div class="modal fade" th:id="deleteModal" tabindex="-1"
                                              aria-labelledby="delete" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -182,52 +169,60 @@
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <form>
+                                                    <form >
                                                         <div class="modal-body">
                                                             <div class="mb-3">
                                                                 <label for="diDelete"
                                                                        class="col-form-label">ID</label>
-                                                                <input readonly type="text"
-                                                                        name="id"
+                                                                <input readonly th:type="text"
+                                                                       th:name="id"
                                                                        class="form-control" id="diDelete"/>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="firstNameDelete"
                                                                        class="col-form-label">First Name</label>
-                                                                <input type="text"
-                                                                        name="firstName"
+                                                                <input th:type="text"
+                                                                       th:name="firstName"
                                                                        class="form-control" id="firstNameDelete" readonly/>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="lastNameDelete" class="col-form-label">Last
                                                                     Name</label>
-                                                                <input type="text"
-                                                                        name="lastName"
+                                                                <input th:type="text"
+                                                                       th:name="lastName" name="lastName"
                                                                        class="form-control" id="lastNameDelete"
                                                                        readonly/>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="ageDelete"
                                                                        class="col-form-label">Age</label>
-                                                                <input type="text"
-                                                                        name="age"
+                                                                <input type="number"
+                                                                       th:age="age" th:name="age"
                                                                        class="form-control" id="ageDelete" readonly/>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="emailDelete"
                                                                        class="col-form-label">Email</label>
-                                                                <input type="text"
-                                                                        name="email"
+                                                                <input type="email"
+                                                                       th:name="email" th:type="email"
                                                                        class="form-control" id="emailDelete" readonly/>
                                                             </div>
                                                             <div class="mb-3">
+                                                                <label for="passwordDelete"
+                                                                       class="col-form-label">Password</label>
+                                                                <input th:type="password" th:name="password"
+                                                                       name="password"
+                                                                       class="form-control" id="passwordDelete" readonly/>
+                                                            </div>
+                                                            <div class="mb-3">
                                                                 <label class="container-fluid "
-                                                                       for="rolesDelete">Role</label>
+                                                                       for="rolesUpdate">Role</label>
                                                                 <select class="form-control form-control-sm"
-                                                                        id="rolesDelete" readonly name="roles" multiple
+                                                                        id="rolesDelete" name="roles" readonly multiple
+                                                                        th:name="roles"
                                                                         style="height: 50px; width: 300px; margin: 0 auto">
-                                                                    <option value="1">ADMIN</option>
-                                                                    <option value="2">USER</option>
+                                                                    <option th:value="ROLE_ADMIN">ADMIN</option>
+                                                                    <option th:value="ROLE_USER">USER</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -243,11 +238,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
+
                     </div>
                     <div class="tab-pane fade" id="newUser">
                         <div class="card">
@@ -336,14 +328,7 @@
                             </tr>
                             </thead>
                             <tbody id="userInfo">
-                            <!--<tr>
-                                <td th:text="${user.id}">
-                                <td th:text="${user.firstName}">
-                                <td th:text="${user.lastName}">
-                                <td th:text="${user.age}">
-                                <td th:text="${user.email}">
-                                <td th:text="${user.getRoles()}">
-                            </tr>-->
+
                             </tbody>
                         </table>
                     </div>
@@ -352,20 +337,12 @@
         </div>
     </div>
 </div>
-<!--<script type="text/javascript" src="/admin.js"></script>-->
+<script type="text/javascript" src="/admin.js"></script>
 <script src="https://yandex.st/jquery/2.1.1/jquery.min.js"></script>
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
 <script type="text/javascript" src="/user.js"></script>
-<script defer type="text/javascript" src="/admin.js"></script>
+
 </body>
 </html>

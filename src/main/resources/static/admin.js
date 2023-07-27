@@ -27,8 +27,8 @@ function getUsers() {
                         data-bs-target="#editModal" onclick="editModal(${user.id})">Edit</button>
                         </td>
                         <td>
-                        <button class="btn btn-danger" type="button" data-toggle="modal"
-                        data-target="#deleteModal" onclick="deleteModal(${user.id})">Delete</button>
+                        <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" onclick="deleteModal(${user.id})">Delete</button>
                         </td>
                     </tr>`
             }
@@ -150,16 +150,23 @@ function deleteModal(id) {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         }
-    }).then(function (response) {
-        return response.json();
-    }).then(user => {
-        document.getElementById('diDelete').value = user.id;
-        document.getElementById('firstNameDelete').value = user.firstName;
-        document.getElementById('lastNameDelete').value = user.lastName;
-        document.getElementById('ageDelete').value = user.age;
-        document.getElementById('emailDelete').value = user.username;
-        document.getElementById('rolesDelete').value = user.roles;
-    })
+        }).then(res => {
+        res.json().then(user => {
+            document.getElementById('diDelete').value = user.id;
+            document.getElementById('firstNameDelete').value = user.firstName;
+            document.getElementById('lastNameDelete').value = user.lastName;
+            document.getElementById('ageDelete').value = user.age;
+            document.getElementById('emailDelete').value = user.email
+            document.getElementById('passwordDelete').value = user.password;
+            document.getElementById('rolesDelete').value = user.roles[0].name;
+
+            const select = document.querySelector('#rolesUpdate').getElementsByTagName('option');
+            for (let i = 0; i < select.length; i++) {
+                if (select[i].value === u.roles[0].name)
+                    select[i].selected = true;
+            }
+        })
+    });
 }
 
 function deleteUser() {
