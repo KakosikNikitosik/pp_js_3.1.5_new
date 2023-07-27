@@ -29,11 +29,6 @@ public class RestAdminController {
     public ResponseEntity<List<User>> printListOfUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
-   /* @GetMapping("/admin/user")
-    public ResponseEntity<User> getUserPage(Principal principal) {
-        User user = userService.findByEmail(principal.getName());
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }*/
 
     @PutMapping("/admin")
     public ResponseEntity<User> create(@RequestBody User user) {

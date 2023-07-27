@@ -1,4 +1,3 @@
-
 const URL = 'http://localhost:8080/api/admin';
 
 function getUsers() {
@@ -39,25 +38,6 @@ function getUsers() {
 
 getUsers();
 
-
-/*document.addEventListener('DOMContentLoaded',async function getAdminInfo() {
-    await fetch(URL)
-        .then(res => res.json())
-        .then(user => {
-
-            let info = '';
-            info +=
-                `<tr>
-                    <td>${user.id}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.age}</td>
-                    <td>${user.username}</td>
-                    <td>${user.roles}</td>
-                </tr>`
-            document.getElementById('adminInfo').innerHTML = info;
-        })
-});*/
 
 function addUser() {
     event.preventDefault();
@@ -173,7 +153,7 @@ function deleteModal(id) {
     }).then(function (response) {
         return response.json();
     }).then(user => {
-        document.getElementById('did').value = user.id;
+        document.getElementById('diDelete').value = user.id;
         document.getElementById('firstNameDelete').value = user.firstName;
         document.getElementById('lastNameDelete').value = user.lastName;
         document.getElementById('ageDelete').value = user.age;
@@ -183,7 +163,7 @@ function deleteModal(id) {
 }
 
 function deleteUser() {
-    let id = document.getElementById('did').value
+    let id = document.getElementById('diDelete').value
 
     fetch(URL + '/' + id, {
         method: 'DELETE',
