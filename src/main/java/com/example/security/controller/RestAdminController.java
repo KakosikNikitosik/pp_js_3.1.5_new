@@ -48,7 +48,7 @@ public class RestAdminController {
     }
 
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<HttpStatus> deleteUser (@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteUser (@PathVariable("id") Long id) {
             userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
