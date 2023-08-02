@@ -1,9 +1,9 @@
 package com.example.security.service;
 
 import com.example.security.model.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -15,6 +15,7 @@ public interface UserService {
 
     User findById(Long id);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
+
     void deleteUser(Long id);
 }

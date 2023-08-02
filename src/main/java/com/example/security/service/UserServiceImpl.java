@@ -1,6 +1,5 @@
 package com.example.security.service;
 
-import com.example.security.model.Role;
 import com.example.security.model.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) == null) {
+        if (userRepository.findByEmail(user.getEmail()).isEmpty()) {
             user.setPassword(bCryptpasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 

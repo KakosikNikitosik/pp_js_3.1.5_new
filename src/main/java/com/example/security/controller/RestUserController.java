@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -23,7 +24,7 @@ public class RestUserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> user(Principal principal) {
+    public ResponseEntity<Optional<User>> user(Principal principal) {
         return ResponseEntity.ok(userService.findByEmail(principal.getName()));
     }
 
